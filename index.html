@@ -13,7 +13,12 @@
 <meta property="og:title" content="Sanchit Goyal — Backend &amp; Platform Engineer">
 <meta property="og:description" content="Tech Lead at PayPay. Ten years building payment systems where correctness is not negotiable.">
 <meta property="og:url" content="https://www.sanchitgoyal.in/">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://www.sanchitgoyal.in/og.png">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1260">
+<meta property="og:image:alt" content="Sanchit Goyal — Backend &amp; Platform Engineer, Tech Lead at PayPay">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.sanchitgoyal.in/og.png">
 
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1115" media="(prefers-color-scheme: dark)">
@@ -59,7 +64,7 @@
   a{color:var(--accent); text-decoration:none; border-bottom:1px solid transparent}
   a:hover{border-bottom-color:currentColor}
 
-  header{padding:5.5rem 0 3rem}
+  header{padding:4rem 0 3rem}
   h1{font-size:2.4rem; line-height:1.15; margin:0 0 .5rem; letter-spacing:-.02em}
   .role{font-size:1.05rem; color:var(--muted); margin:0 0 1.75rem}
   .lede{font-size:1.3rem; line-height:1.45; margin:0 0 1.75rem; letter-spacing:-.01em}
@@ -93,14 +98,39 @@
 
   footer{padding:2.5rem 0 4rem; border-top:1px solid var(--line); color:var(--muted); font-size:.92rem}
 
+  /* ---------- sticky top bar ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:20;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:saturate(140%) blur(10px);
+    -webkit-backdrop-filter:saturate(140%) blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  @supports not (background:color-mix(in srgb, red 50%, transparent)){
+    .topbar{background:var(--bg)}
+  }
+  .topbar .bar{
+    max-width:46rem; margin:0 auto; padding:.6rem 1.5rem;
+    display:flex; align-items:center; justify-content:space-between; gap:1rem;
+  }
+  .navlinks{
+    display:flex; gap:1.1rem; overflow-x:auto; scrollbar-width:none;
+    font-family:var(--mono); font-size:.72rem; letter-spacing:.02em;
+  }
+  .navlinks::-webkit-scrollbar{display:none}
+  .navlinks a{color:var(--muted); white-space:nowrap; border-bottom:0}
+  .navlinks a:hover{color:var(--fg)}
+  html{scroll-behavior:smooth}
+  section[id]{scroll-margin-top:4rem}
+
   /* ---------- theme switch ---------- */
   .theme{
-    position:fixed; top:1.1rem; right:1.1rem; z-index:10;
+    flex:none;
     display:inline-flex; align-items:center; gap:.4rem;
     font-family:var(--mono); font-size:.72rem; letter-spacing:.02em;
     color:var(--muted); background:var(--card);
     border:1px solid var(--line); border-radius:999px;
-    padding:.4rem .75rem; cursor:pointer;
+    padding:.35rem .7rem; cursor:pointer;
     transition:color .15s, border-color .15s;
   }
   .theme:hover{color:var(--fg); border-color:var(--muted)}
@@ -110,7 +140,7 @@
   /* ---------- print: let anyone save the page as a clean PDF ---------- */
   @media print{
     :root{--bg:#fff; --fg:#000; --muted:#333; --faint:#666; --line:#ccc; --card:#fff; --accent:#000; --accent-soft:#f2f2f2}
-    .theme{display:none}
+    .topbar{display:none}
     body{font-size:11pt}
     .wrap{max-width:none; padding:0}
     header{padding:0 0 1rem}
@@ -121,7 +151,7 @@
   }
 
   @media (max-width:600px){
-    header{padding:3.5rem 0 2.25rem}
+    header{padding:2.5rem 0 2.25rem}
     h1{font-size:1.95rem}
     .lede{font-size:1.15rem}
     .job{flex-direction:column; gap:.15rem}
@@ -131,10 +161,20 @@
 </head>
 <body>
 
-<button class="theme" id="themeBtn" type="button" aria-live="polite">
-  <span id="themeIcon" aria-hidden="true"></span>
-  <span id="themeLabel">System</span>
-</button>
+<nav class="topbar" aria-label="Sections">
+  <div class="bar">
+    <div class="navlinks">
+      <a href="#about">About</a>
+      <a href="#work">Selected work</a>
+      <a href="#experience">Experience</a>
+      <a href="#stack">Stack</a>
+    </div>
+    <button class="theme" id="themeBtn" type="button" aria-live="polite">
+      <span id="themeIcon" aria-hidden="true"></span>
+      <span id="themeLabel">System</span>
+    </button>
+  </div>
+</nav>
 
 <div class="wrap">
 
@@ -157,14 +197,14 @@
     </p>
   </header>
 
-  <section>
+  <section id="about">
     <h2>What I do</h2>
     <p>I'm a Tech Lead at <strong>PayPay</strong>, Japan's largest mobile payment service, where I own the multi-tenant communications platform behind PayPay, PayPay Card, PayPay Bank and PayPay Securities.</p>
     <p>Ten years in, almost all of my work has been on systems that move money — wallets, point balances, refunds, reconciliation. That shapes how I build. A payments platform that is fast but occasionally inconsistent is worse than useless, so I care more than most about migration safety, idempotency, tenant isolation, and understanding how a system behaves under load before customers discover it for me.</p>
     <p>I also set technical standards and run architecture reviews for 7–8 engineers, and I tend to pick up the debugging nobody volunteers for — a Java 21 virtual-thread issue took me a week to isolate and ship a fix for.</p>
   </section>
 
-  <section>
+  <section id="work">
     <h2>Selected work</h2>
 
     <div class="case">
@@ -239,7 +279,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="experience">
     <h2>Where I've worked</h2>
 
     <div class="job">
@@ -276,7 +316,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="stack">
     <h2>Tools</h2>
     <dl class="skills">
       <dt>Languages &amp; frameworks</dt>
