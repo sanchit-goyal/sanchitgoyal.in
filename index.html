@@ -1,2 +1,384 @@
-comming soon...
-https://github.com/sanchit-goyal/config-ui
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Sanchit Goyal — Backend &amp; Platform Engineer</title>
+<meta name="description" content="Tech Lead at PayPay, Japan's largest mobile payment service. Ten years building payment platforms, multi-tenant systems and large-scale database migrations.">
+<link rel="canonical" href="https://www.sanchitgoyal.in/">
+
+<!-- Open Graph controls how this link renders when shared on LinkedIn, Slack or email -->
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Sanchit Goyal — Backend &amp; Platform Engineer">
+<meta property="og:description" content="Tech Lead at PayPay. Ten years building payment systems where correctness is not negotiable.">
+<meta property="og:url" content="https://www.sanchitgoyal.in/">
+<meta name="twitter:card" content="summary">
+
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1115" media="(prefers-color-scheme: dark)">
+
+<!-- Applied before first paint so an explicit choice never flashes the wrong theme.
+     No stored value means no data-theme attribute, which means the CSS falls
+     through to prefers-color-scheme, i.e. whatever the browser/OS prefers. -->
+<script>
+  (function(){
+    var m = document.cookie.match(/(?:^|;\s*)theme=(light|dark)(?:;|$)/);
+    if (m) document.documentElement.setAttribute('data-theme', m[1]);
+  })();
+</script>
+
+<style>
+  :root{
+    --bg:#ffffff; --fg:#16191f; --muted:#5b6472; --faint:#8b95a4;
+    --line:#e6e9ee; --card:#fafbfc; --accent:#0b6e6e; --accent-soft:#e6f2f2;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+  }
+  /* dark palette, defined once and applied in two situations */
+  @media (prefers-color-scheme:dark){
+    /* follow the system, unless the visitor has explicitly chosen light */
+    :root:not([data-theme="light"]){
+      --bg:#0f1115; --fg:#e8ebf0; --muted:#9aa4b2; --faint:#707a8a;
+      --line:#232833; --card:#151922; --accent:#4fd1c5; --accent-soft:#12262a;
+    }
+  }
+  /* explicit choice always wins over the system preference */
+  :root[data-theme="dark"]{
+    --bg:#0f1115; --fg:#e8ebf0; --muted:#9aa4b2; --faint:#707a8a;
+    --line:#232833; --card:#151922; --accent:#4fd1c5; --accent-soft:#12262a;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:var(--sans); font-size:17px; line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:46rem; margin:0 auto; padding:0 1.5rem}
+  a{color:var(--accent); text-decoration:none; border-bottom:1px solid transparent}
+  a:hover{border-bottom-color:currentColor}
+
+  header{padding:5.5rem 0 3rem}
+  h1{font-size:2.4rem; line-height:1.15; margin:0 0 .5rem; letter-spacing:-.02em}
+  .role{font-size:1.05rem; color:var(--muted); margin:0 0 1.75rem}
+  .lede{font-size:1.3rem; line-height:1.45; margin:0 0 1.75rem; letter-spacing:-.01em}
+  .meta{font-size:.95rem; color:var(--muted); display:flex; flex-wrap:wrap; gap:.4rem 1.1rem; margin:0}
+  .meta .sep{color:var(--line)}
+
+  section{padding:2.5rem 0; border-top:1px solid var(--line)}
+  h2{font-size:.78rem; text-transform:uppercase; letter-spacing:.11em; color:var(--faint); font-weight:600; margin:0 0 1.75rem}
+  h3{font-size:1.12rem; margin:0 0 .4rem; letter-spacing:-.01em}
+  p{margin:0 0 1rem}
+  p:last-child{margin-bottom:0}
+
+  .case{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1.4rem 1.5rem; margin-bottom:1.1rem}
+  .case:last-child{margin-bottom:0}
+  .case .when{font-family:var(--mono); font-size:.78rem; color:var(--faint); margin:0 0 .7rem}
+  .case p{font-size:.97rem; color:var(--muted); margin-bottom:.9rem}
+  .case p strong{color:var(--fg); font-weight:600}
+  .stats{display:flex; flex-wrap:wrap; gap:.5rem; margin:0; padding:0; list-style:none}
+  .stats li{font-family:var(--mono); font-size:.76rem; color:var(--accent); background:var(--accent-soft); border-radius:5px; padding:.28rem .55rem}
+
+  .job{display:flex; gap:1.25rem; padding:.7rem 0; border-bottom:1px solid var(--line)}
+  .job:last-child{border-bottom:0}
+  .job .yr{font-family:var(--mono); font-size:.78rem; color:var(--faint); flex:0 0 10.75rem; padding-top:.25rem; margin:0; white-space:nowrap}
+  .job .what{margin:0}
+  .job .what b{font-weight:600}
+  .job .what em{font-style:normal; color:var(--muted); font-size:.93rem; display:block}
+
+  .skills dt{font-size:.8rem; text-transform:uppercase; letter-spacing:.07em; color:var(--faint); margin:0 0 .3rem}
+  .skills dd{margin:0 0 1.1rem; font-size:.97rem; color:var(--muted)}
+  .skills dd:last-child{margin-bottom:0}
+
+  footer{padding:2.5rem 0 4rem; border-top:1px solid var(--line); color:var(--muted); font-size:.92rem}
+
+  /* ---------- theme switch ---------- */
+  .theme{
+    position:fixed; top:1.1rem; right:1.1rem; z-index:10;
+    display:inline-flex; align-items:center; gap:.4rem;
+    font-family:var(--mono); font-size:.72rem; letter-spacing:.02em;
+    color:var(--muted); background:var(--card);
+    border:1px solid var(--line); border-radius:999px;
+    padding:.4rem .75rem; cursor:pointer;
+    transition:color .15s, border-color .15s;
+  }
+  .theme:hover{color:var(--fg); border-color:var(--muted)}
+  .theme:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+  .theme svg{width:13px; height:13px; flex:none}
+
+  /* ---------- print: let anyone save the page as a clean PDF ---------- */
+  @media print{
+    :root{--bg:#fff; --fg:#000; --muted:#333; --faint:#666; --line:#ccc; --card:#fff; --accent:#000; --accent-soft:#f2f2f2}
+    .theme{display:none}
+    body{font-size:11pt}
+    .wrap{max-width:none; padding:0}
+    header{padding:0 0 1rem}
+    h1{font-size:20pt}
+    section{padding:.9rem 0; break-inside:avoid}
+    .case{break-inside:avoid; border:1px solid #ccc; background:#fff}
+    a{color:#000; border:0}
+  }
+
+  @media (max-width:600px){
+    header{padding:3.5rem 0 2.25rem}
+    h1{font-size:1.95rem}
+    .lede{font-size:1.15rem}
+    .job{flex-direction:column; gap:.15rem}
+    .job .yr{flex:none}
+  }
+</style>
+</head>
+<body>
+
+<button class="theme" id="themeBtn" type="button" aria-live="polite">
+  <span id="themeIcon" aria-hidden="true"></span>
+  <span id="themeLabel">System</span>
+</button>
+
+<div class="wrap">
+
+  <header>
+    <h1>Sanchit Goyal</h1>
+    <p class="role">Backend &amp; Platform Engineer · Tech Lead at PayPay</p>
+
+    <p class="lede">I build payment systems where being wrong is expensive.</p>
+
+    <p class="meta">
+      <span>Gurgaon, India</span>
+      <span class="sep">/</span>
+      <span><strong>10+ years</strong> experience</span>
+      <span class="sep">/</span>
+      <a href="mailto:sanchitgoyal2604@gmail.com">sanchitgoyal2604@gmail.com</a>
+      <span class="sep">/</span>
+      <a href="https://www.linkedin.com/in/-sanchit" rel="me">LinkedIn</a>
+    </p>
+  </header>
+
+  <section>
+    <h2>What I do</h2>
+    <p>I'm a Tech Lead at <strong>PayPay</strong>, Japan's largest mobile payment service, where I own the multi-tenant communications platform behind PayPay, PayPay Card, PayPay Bank and PayPay Securities.</p>
+    <p>Ten years in, almost all of my work has been on systems that move money — wallets, point balances, refunds, reconciliation. That shapes how I build. A payments platform that is fast but occasionally inconsistent is worse than useless, so I care more than most about migration safety, idempotency, tenant isolation, and understanding how a system behaves under load before customers discover it for me.</p>
+    <p>I also set technical standards and run architecture reviews for 7–8 engineers, and I tend to pick up the debugging nobody volunteers for — a Java 21 virtual-thread issue took me a week to isolate and ship a fix for.</p>
+  </section>
+
+  <section>
+    <h2>Selected work</h2>
+
+    <div class="case">
+      <h3>Moving 300M rows off TiDB, live</h3>
+      <p class="when">PayPay · 2025</p>
+      <p>Our core wallet data sat on TiDB, and the licence and storage costs were growing faster than the business needed them to. I was the <strong>sole application engineer</strong> on the migration to AWS Aurora, from proof of concept through production release, working alongside two DBAs.</p>
+      <p>Roughly 75M wallet rows and 225M account rows, plus high-volume transaction and idempotency data. Dual-write replication kept Aurora current with TiDB until we cut over in a single planned maintenance window. Aurora caps tables at 64&nbsp;TB, so I added live partition rotation and archival to keep growth inside that ceiling rather than discovering the limit later.</p>
+      <ul class="stats">
+        <li>~300M rows migrated</li>
+        <li>$1M annualized saving</li>
+        <li>no data-consistency incidents</li>
+      </ul>
+    </div>
+
+    <div class="case">
+      <h3>A multi-tenant notification platform at 20,000/second</h3>
+      <p class="when">PayPay · 2025–2026</p>
+      <p>Four regulated financial entities — PayPay, PayPay Card, PayPay Bank and PayPay Securities — needed to send across push, email, SMS, in-app, LINE, WhatsApp and merchant webhooks without competing for the same capacity. I owned the platform architecture and the capacity work, and wrote the onboarding guidelines each sister company follows.</p>
+      <p>The interesting constraint was <strong>isolation</strong>: one tenant's traffic spike must not degrade another's delivery. Kafka and queues, worker autoscaling, batching, rate limiting and per-tenant quotas took us from 4,000 to 20,000 notifications per second. I also built end-to-end observability on Prometheus and Grafana that ties a single notification back to its campaign or transaction, so campaigns get CTR and CVR while transactional sends get strict SLA monitoring.</p>
+      <ul class="stats">
+        <li>5× capacity</li>
+        <li>7 channels</li>
+        <li>4 tenants, isolated</li>
+      </ul>
+    </div>
+
+    <div class="case">
+      <h3>An LLM support agent, to 100% of users</h3>
+      <p class="when">PayPay · 2026</p>
+      <p>We evolved a rule-based chatbot into an LLM agent through proof of concept, pilot and gradual rollout to the entire user base. The architecture uses separate models for embeddings, classification and response generation. I own the <strong>RAG design, the knowledge-update pipeline and the agent-memory system</strong>.</p>
+      <p>In a financial product the hard part isn't fluency, it's restraint. Answers are grounded strictly in approved support knowledge, and genuinely high-risk situations — an unrecognised payment, say — are routed to a human agent rather than answered. Current scope is question answering; backend action execution is still being built.</p>
+      <ul class="stats">
+        <li>P90 TTFT 5s</li>
+        <li>under ¥5 (~US$0.03) per conversation</li>
+        <li>100% rollout</li>
+      </ul>
+    </div>
+
+    <div class="case">
+      <h3>Shipping points that expire — and reconcile</h3>
+      <p class="when">PayPay · 2024–2025</p>
+      <p>PayPay Points (Limited-Time) are points that carry an expiry and are restricted to particular services. I owned the point-system implementation and the reconciliation for them.</p>
+      <p>Granting them is the easy half. The hard half is <strong>refunds and reconciliation</strong>: when a purchase made partly with expiring, service-restricted points is refunded, the system has to decide what to give back, in what form, against a balance that may since have expired — and the ledger has to still agree with itself afterwards. That's where most of the design effort went. The release earned a Rockstar Award.</p>
+      <ul class="stats">
+        <li>350 TPS peak grants</li>
+        <li>Rockstar Award</li>
+      </ul>
+    </div>
+
+    <div class="case">
+      <h3>Untangling point balances from the wallet domain</h3>
+      <p class="when">PayPay · 2023–2024</p>
+      <p>PayPay Point accounts lived inside a complex wallet domain that had accumulated responsibilities. Working from an architect-defined high-level design, a seven-engineer team — including me — owned the low-level design, cross-team coordination, implementation and the migration itself.</p>
+      <p>My share was data and API migration, reconciliation, testing and production readiness. The payoff beyond throughput: point flows can now scale independently, and the wallet domain got meaningfully less tangled.</p>
+      <ul class="stats">
+        <li>750 → 850 TPS peak</li>
+        <li>33% performance improvement</li>
+        <li>phased rollout, latency within SLA</li>
+      </ul>
+    </div>
+
+    <div class="case">
+      <h3>Replacing the platform behind a US insurer's group benefits</h3>
+      <p class="when">Guardian Life · 2020–2023</p>
+      <p>Group Benefit Platform Transformation was a multi-year programme to replace the operating platform behind all of Guardian's group benefits products and services. The binding constraint was that the legacy systems had to keep serving clients throughout — there was no window in which claims could simply stop. I <strong>led and mentored 5+ engineers</strong> decomposing those platforms into microservices and decoupling them in phases, including the migration onto a new claims platform.</p>
+      <p>The integration layer was the interesting part: cloud services and on-premise systems had to stay coherent while ownership of a given capability moved from one to the other. I designed that architecture. Separately I built an Angular self-service configuration application on AWS Lambda, API Gateway and DynamoDB, so clients could configure their own setup rather than routing every change through support — worth <strong>$12K per client annually</strong>. Integrating a Drools rules engine then cut client unloading time in half.</p>
+      <ul class="stats">
+        <li>$12K saved per client, annually</li>
+        <li>50% faster client unloading</li>
+        <li>5+ engineers led</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Where I've worked</h2>
+
+    <div class="job">
+      <p class="yr">Apr 2024 – now</p>
+      <p class="what"><b>Tech Lead</b><em>PayPay India — Japan's largest mobile payment service</em></p>
+    </div>
+    <div class="job">
+      <p class="yr">Oct 2023 – Mar 2024</p>
+      <p class="what"><b>Senior Backend Engineer</b><em>PayPay India</em></p>
+    </div>
+    <div class="job">
+      <p class="yr">Aug 2021 – Sep 2023</p>
+      <p class="what"><b>Senior Lead Engineer</b><em>Guardian India Operations — Guardian Life, US Fortune 250 insurance</em></p>
+    </div>
+    <div class="job">
+      <p class="yr">Jan 2020 – Jul 2021</p>
+      <p class="what"><b>Lead Engineer</b><em>Guardian India Operations</em></p>
+    </div>
+    <div class="job">
+      <p class="yr">Aug 2019 – Dec 2019</p>
+      <p class="what"><b>Software Engineer</b><em>Orange Business Services — Orange S.A.</em></p>
+    </div>
+    <div class="job">
+      <p class="yr">Aug 2018 – Jul 2019</p>
+      <p class="what"><b>Business Systems Analyst</b><em>Optum — UnitedHealth Group</em></p>
+    </div>
+    <div class="job">
+      <p class="yr">Jan 2018 – Jul 2018</p>
+      <p class="what"><b>Software Engineer</b><em>Optum</em></p>
+    </div>
+    <div class="job">
+      <p class="yr">Jul 2016 – Dec 2017</p>
+      <p class="what"><b>Associate Software Engineer</b><em>Optum</em></p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Tools</h2>
+    <dl class="skills">
+      <dt>Languages &amp; frameworks</dt>
+      <dd>Java, Kotlin, Python, Spring Boot</dd>
+
+      <dt>Data &amp; messaging</dt>
+      <dd>Kafka, Amazon Aurora, MySQL, Cassandra, Redis, TiDB</dd>
+
+      <dt>Infrastructure</dt>
+      <dd>AWS, Kubernetes, Docker, Terraform, Prometheus, Grafana</dd>
+
+      <dt>Design</dt>
+      <dd>Distributed systems, microservices, multi-tenant platforms, live data migration</dd>
+
+      <dt>AI</dt>
+      <dd>LLM applications, RAG, agent design, agent memory</dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>Education</h2>
+    <p>B.Tech, Electronics &amp; Communications Engineering — Greater Noida Institute of Technology (Dr. A.P.J. Abdul Kalam Technical University), 2016.</p>
+  </section>
+
+  <footer>
+    <p>
+      <a href="mailto:sanchitgoyal2604@gmail.com">sanchitgoyal2604@gmail.com</a> ·
+      <a href="https://www.linkedin.com/in/-sanchit">linkedin.com/in/-sanchit</a>
+    </p>
+  </footer>
+
+</div>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Person",
+  "name":"Sanchit Goyal",
+  "url":"https://www.sanchitgoyal.in/",
+  "jobTitle":"Tech Lead",
+  "email":"mailto:sanchitgoyal2604@gmail.com",
+  "worksFor":{"@type":"Organization","name":"PayPay"},
+  "address":{"@type":"PostalAddress","addressLocality":"Gurgaon","addressCountry":"IN"},
+  "alumniOf":{"@type":"CollegeOrUniversity","name":"Greater Noida Institute of Technology"},
+  "sameAs":["https://www.linkedin.com/in/-sanchit"],
+  "knowsAbout":["Distributed Systems","Payments","Java","Kotlin","Apache Kafka","Amazon Web Services","Kubernetes","Retrieval-Augmented Generation"]
+}
+</script>
+
+<script>
+(function(){
+  var root  = document.documentElement,
+      btn   = document.getElementById('themeBtn'),
+      icon  = document.getElementById('themeIcon'),
+      label = document.getElementById('themeLabel'),
+      ORDER = ['system','light','dark'];
+
+  var ICONS = {
+    // half-filled circle = following the system
+    system:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"/></svg>',
+    light :'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M19.1 4.9l-1.8 1.8M6.7 17.3l-1.8 1.8"/></svg>',
+    dark  :'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5z"/></svg>'
+  };
+
+  function readCookie(){
+    var m = document.cookie.match(/(?:^|;\s*)theme=(light|dark)(?:;|$)/);
+    return m ? m[1] : 'system';
+  }
+  function writeCookie(v){
+    if (v === 'system'){
+      // expire it, so the page falls back to the browser/OS preference
+      document.cookie = 'theme=; path=/; max-age=0; samesite=lax';
+    } else {
+      document.cookie = 'theme=' + v + '; path=/; max-age=31536000; samesite=lax';
+    }
+  }
+  function apply(v){
+    if (v === 'system') root.removeAttribute('data-theme');
+    else root.setAttribute('data-theme', v);
+
+    icon.innerHTML = ICONS[v];
+    label.textContent = v.charAt(0).toUpperCase() + v.slice(1);
+    btn.setAttribute('aria-label',
+      'Colour theme: ' + v + '. Activate to switch to ' +
+      ORDER[(ORDER.indexOf(v) + 1) % ORDER.length] + '.');
+  }
+
+  var current = readCookie();
+  apply(current);
+
+  btn.addEventListener('click', function(){
+    current = ORDER[(ORDER.indexOf(current) + 1) % ORDER.length];
+    writeCookie(current);
+    apply(current);
+  });
+
+  // if we're following the system and the OS flips, re-render the icon
+  if (window.matchMedia){
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(){
+      if (readCookie() === 'system') apply('system');
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
