@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230f1115'/><text x='50' y='72' font-size='62' font-family='system-ui,sans-serif' font-weight='700' fill='%23ffffff' text-anchor='middle'>S</text></svg>">
 
 <title>Sanchit Goyal — Backend &amp; Platform Engineer</title>
 <meta name="description" content="Tech Lead at PayPay, Japan's largest mobile payment service. Ten years building payment platforms, multi-tenant systems and large-scale database migrations.">
@@ -193,13 +194,13 @@
       <span class="sep">/</span>
       <a href="https://www.linkedin.com/in/-sanchit" rel="me">LinkedIn</a>
       <span class="sep">/</span>
-      <a href="resume.pdf">Résumé (PDF)</a>
+      <a href="resume.pdf" download="Sanchit-Goyal-Resume.pdf">Résumé (PDF)</a>
     </p>
   </header>
 
   <section id="about">
     <h2>What I do</h2>
-    <p>I'm a Tech Lead at <strong>PayPay</strong>, Japan's largest mobile payment service, where I own the multi-tenant communications platform behind PayPay, PayPay Card, PayPay Bank and PayPay Securities.</p>
+    <p>I'm a Tech Lead at <strong>PayPay</strong>, Japan's largest mobile payment service — 75 million registered users, listed on Nasdaq since March 2026 — where I own the multi-tenant communications platform behind PayPay, PayPay Card, PayPay Bank and PayPay Securities.</p>
     <p>Ten years in, almost all of my work has been on systems that move money — wallets, point balances, refunds, reconciliation. That shapes how I build. A payments platform that is fast but occasionally inconsistent is worse than useless, so I care more than most about migration safety, idempotency, tenant isolation, and understanding how a system behaves under load before customers discover it for me.</p>
     <p>I also set technical standards and run architecture reviews for 7–8 engineers, and I tend to pick up the debugging nobody volunteers for — a Java 21 virtual-thread issue took me a week to isolate and ship a fix for.</p>
   </section>
@@ -208,12 +209,13 @@
     <h2>Selected work</h2>
 
     <div class="case">
-      <h3>Moving 300M rows off TiDB, live</h3>
+      <h3>Moving 25 TB off TiDB, live</h3>
       <p class="when">PayPay · 2025</p>
       <p>Our core wallet data sat on TiDB, and the licence and storage costs were growing faster than the business needed them to. I was the <strong>sole application engineer</strong> on the migration to AWS Aurora, from proof of concept through production release, working alongside two DBAs.</p>
-      <p>Roughly 75M wallet rows and 225M account rows, plus high-volume transaction and idempotency data. Dual-write replication kept Aurora current with TiDB until we cut over in a single planned maintenance window. Aurora caps tables at 64&nbsp;TB, so I added live partition rotation and archival to keep growth inside that ceiling rather than discovering the limit later.</p>
+      <p>About 25&nbsp;TB in total: 75M wallet rows, 225M account rows, and roughly 100 billion rows across four ever-growing transaction and idempotency tables. Dual-write replication kept Aurora current with TiDB, so the actual cutover needed a single 30-minute maintenance window rather than a copy of that size. Aurora caps tables at 64&nbsp;TB, so I added live partition rotation and archival to contain future growth against that ceiling rather than discovering the limit later.</p>
       <ul class="stats">
-        <li>~300M rows migrated</li>
+        <li>25 TB, ~100B rows</li>
+        <li>30-minute cutover</li>
         <li>$1M annualized saving</li>
         <li>no data-consistency incidents</li>
       </ul>
@@ -223,10 +225,12 @@
       <h3>A multi-tenant notification platform at 20,000/second</h3>
       <p class="when">PayPay · 2025–2026</p>
       <p>Four regulated financial entities — PayPay, PayPay Card, PayPay Bank and PayPay Securities — needed to send across push, email, SMS, in-app, LINE, WhatsApp and merchant webhooks without competing for the same capacity. I owned the platform architecture and the capacity work, and wrote the onboarding guidelines each sister company follows.</p>
-      <p>The interesting constraint was <strong>isolation</strong>: one tenant's traffic spike must not degrade another's delivery. Kafka and queues, worker autoscaling, batching, rate limiting and per-tenant quotas took us from 4,000 to 20,000 notifications per second. I also built end-to-end observability on Prometheus and Grafana that ties a single notification back to its campaign or transaction, so campaigns get CTR and CVR while transactional sends get strict SLA monitoring.</p>
+      <p>One constraint was <strong>isolation</strong>: one tenant's traffic spike must not degrade another's delivery. The other was the clock. Japan restricts promotional push outside daytime hours, and a same-day campaign has to land before noon — so the day's entire campaign volume has to clear in a few hours, and transactional sends can never queue behind it. That is why a platform averaging 35 million notifications a day is built for 20,000 per second: a 20M-recipient campaign inside half an hour needs about 11,000 per second on its own.</p>
+      <p>Kafka and queues, worker autoscaling, batching, rate limiting and per-tenant quotas took us from 4,000 to 20,000 notifications per second at 99.99% uptime. I also built end-to-end observability on Prometheus and Grafana that ties a single notification back to its campaign or transaction, so campaigns get CTR and CVR while transactional sends are held to delivery within 5 seconds of payment.</p>
       <ul class="stats">
-        <li>5× capacity</li>
-        <li>7 channels</li>
+        <li>35M notifications/day</li>
+        <li>20,000/second peak</li>
+        <li>99.99% uptime</li>
         <li>4 tenants, isolated</li>
       </ul>
     </div>
@@ -260,9 +264,10 @@
       <p>PayPay Point accounts lived inside a complex wallet domain that had accumulated responsibilities. Working from an architect-defined high-level design, a seven-engineer team — including me — owned the low-level design, cross-team coordination, implementation and the migration itself.</p>
       <p>My share was data and API migration, reconciliation, testing and production readiness. The payoff beyond throughput: point flows can now scale independently, and the wallet domain got meaningfully less tangled.</p>
       <ul class="stats">
-        <li>750 → 850 TPS peak</li>
-        <li>33% performance improvement</li>
-        <li>phased rollout, latency within SLA</li>
+        <li>750 → 1,000 TPS capacity</li>
+        <li>payment P99 150ms → 100ms</li>
+        <li>end-to-end P99 1.2s → 0.9s</li>
+        <li>no data-consistency incidents</li>
       </ul>
     </div>
 
@@ -284,7 +289,7 @@
 
     <div class="job">
       <p class="yr">Apr 2024 – now</p>
-      <p class="what"><b>Tech Lead</b><em>PayPay India — Japan's largest mobile payment service</em></p>
+      <p class="what"><b>Tech Lead</b><em>PayPay India — Japan's largest mobile payment service, Nasdaq-listed</em></p>
     </div>
     <div class="job">
       <p class="yr">Oct 2023 – Mar 2024</p>
@@ -362,7 +367,7 @@
   "address":{"@type":"PostalAddress","addressLocality":"Gurgaon","addressCountry":"IN"},
   "alumniOf":{"@type":"CollegeOrUniversity","name":"Greater Noida Institute of Technology"},
   "sameAs":["https://www.linkedin.com/in/-sanchit"],
-  "knowsAbout":["Distributed Systems","Payments","Java","Kotlin","Apache Kafka","Amazon Web Services","Kubernetes","Retrieval-Augmented Generation"]
+  "knowsAbout":["Distributed Systems","Payments","Digital Wallets","Ledger and Reconciliation","Idempotency","Event-Driven Architecture","Multi-Tenant Platforms","Java","Kotlin","Apache Kafka","Amazon Web Services","Kubernetes","Terraform","Retrieval-Augmented Generation"]
 }
 </script>
 
